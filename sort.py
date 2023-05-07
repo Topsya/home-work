@@ -1,11 +1,13 @@
-
+import Path 
+import pathlib
 import shutil
 import os
 import re
 import sys
- 
 
-path = r'c:\user\Desktop\Мотлох'
+
+
+#path = r'c:\user\Desktop\Мотлох'
 # Таблиця 
 CYRILLIC_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяєіїґ"
 TRANSLATION = ("a", "b", "v", "g", "d", "e", "e", "j", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u",
@@ -42,35 +44,35 @@ def move_files(path):
    audio = ['mp3', 'ogg', 'wav', 'amr']
    video = ['avi', 'mp4', 'mov', 'mkv']
    archives = ['zip', 'gz', 'tar']
-   Spisok = os.listdir("/user/Desktop/Мотлох")  
+   Spisok = os.listdir(path)  
    for file in Spisok :
       extension = file.split(".")
       razresh += extension[1]   #збираю всі розширення
        
       if  len(extension) > 1 and extension[1].lower() in imeges :
-         old_path = r'/user/Desktop/Мотлох' + file
-         new_path = r'/user/Desktop/Мотлох' + "/images/" + file
+         old_path = path + file
+         new_path = path + "/images/" + file
          shutil.move(old_path,new_path)  
       elif  len(extension) > 1 and extension[1].lower() in documents :
-         old_path = r'/user/Desktop/Мотлох' + file
-         new_path = r'/user/Desktop/Мотлох' + "/documents/" + file
+         old_path = path + file
+         new_path = path + "/documents/" + file
          shutil.move(old_path,new_path)
       elif  len(extension) > 1 and extension[1].lower() in audio :
-         old_path = r'/user/Desktop/Мотлох' + file
-         new_path = r'/user/Desktop/Мотлох' + "/audio/" + file
+         old_path = path + file
+         new_path = path + "/audio/" + file
          shutil.move(old_path,new_path)  
       elif  len(extension) > 1 and extension[1].lower() in video :
-         old_path = r'/user/Desktop/Мотлох' + file
-         new_path = r'/user/Desktop/Мотлох' + "/video/" + file
+         old_path = path + file
+         new_path = path + "/video/" + file
          shutil.move(old_path,new_path)  
       elif  len(extension) > 1 and extension[1].lower() in archives :
-         old_path = r'/user/Desktop/Мотлох' + file
-         new_path = r'/user/Desktop/Мотлох' + "/archives/" + file
+         old_path = path + file
+         new_path = path + "/archives/" + file
          shutil.move(old_path,new_path)
       return razresh
 
 list_vse_razresh = list(set(razresh)) # залишаю лише унікальні розширення
-list_music =  os.listdir('/user/Desktop/Мотлох/audio/') 
+list_music =  os.listdir(path + "/audio/") 
 list_video = os.listdir('/user/Desktop/Мотлох/video/') 
 list_foto = os.listdir('/user/Desktop/Мотлох/images/') 
 list_doc  = os.listdir('/user/Desktop/Мотлох/documents/') 
@@ -86,7 +88,10 @@ print ({
               'list_vse_razresh': list_vse_razresh,
               'list_neizvestnie': list_neizvestnie,
             })
-    
+     
 # Список файлів в кожній категорії (музика, відео, фото та ін.)
 # Перелік усіх відомих скрипту розширень, які зустрічаються в цільовій папці.
 # Перелік всіх розширень, які скрипту невідомі.
+
+path = Path(input('Введіть путь папки : '))
+def move_files (sys.argv[1])
