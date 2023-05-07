@@ -3,7 +3,7 @@ import shutil
 import os
 import re
 import sys
-
+ 
 
 path = r'c:\user\Desktop\Мотлох'
 # Таблиця 
@@ -17,7 +17,7 @@ for c, l in zip(CYRILLIC_SYMBOLS, TRANSLATION):
     TRANS[ord(c)] = l
 
 
-def normalize():
+def normalize(file):
 #  приймає на вхід рядок та повертає рядок;
  new_name = ""
     # здійснює транслітерацію кириличних символів на латиницю;
@@ -29,23 +29,21 @@ def normalize():
 # транслітерація може не відповідати стандарту, але бути читабельною;
 # великі літери залишаються великими, а маленькі — маленькими після транслітерації.
 
-# змінюємо назву
-def rename():
-    for file in os.listdir(path):
+
+def move_files(path):
+ # змінюємо назву
+   for file in os.listdir(path):
        if file.is_file(): 
         file = os.rename(f'{file }', f'{normalize(file)} ')
-    return   file 
-               
-   
-def move_files(path):
+    
    razresh = []
    imeges = ['jpeg', 'png', 'jpg', 'svg']
    documents = ['doc', 'docx', 'txt', 'pdf', 'xlsx', 'pptx']
    audio = ['mp3', 'ogg', 'wav', 'amr']
    video = ['avi', 'mp4', 'mov', 'mkv']
    archives = ['zip', 'gz', 'tar']
-   fails = os.listdir("/user/Desktop/Мотлох")  
-   for file in files :
+   Spisok = os.listdir("/user/Desktop/Мотлох")  
+   for file in Spisok :
       extension = file.split(".")
       razresh += extension[1]   #збираю всі розширення
        
