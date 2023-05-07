@@ -1,10 +1,11 @@
-from importlib.metadata import files
+
 import shutil
 import os
 import re
 import sys
-import Path 
 
+
+path = r'c:\user\Desktop\Мотлох'
 # Таблиця 
 CYRILLIC_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяєіїґ"
 TRANSLATION = ("a", "b", "v", "g", "d", "e", "e", "j", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u",
@@ -28,21 +29,16 @@ def normalize():
 # транслітерація може не відповідати стандарту, але бути читабельною;
 # великі літери залишаються великими, а маленькі — маленькими після транслітерації.
 
-
-# потрібно запустити скрипт командою python sort.py /user/Desktop/Мотлох
-# os.rename('filename.txt', 'new_filename.txt')
- # sorter_files(Motloh):  
-from pathlib import Path 
-papka = Path("/user/Desktop/Мотлох")
+# змінюємо назву
 def rename():
-    for file in os.listdir(papka):
+    for file in os.listdir(path):
        if file.is_file(): 
         file = os.rename(f'{file }', f'{normalize(file)} ')
     return   file 
                
    
-def move_files():
-  
+def move_files(path):
+   razresh = []
    imeges = ['jpeg', 'png', 'jpg', 'svg']
    documents = ['doc', 'docx', 'txt', 'pdf', 'xlsx', 'pptx']
    audio = ['mp3', 'ogg', 'wav', 'amr']
@@ -51,9 +47,8 @@ def move_files():
    fails = os.listdir("/user/Desktop/Мотлох")  
    for file in files :
       extension = file.split(".")
-      razresh = []
-      razresh += extension[1]
-      list_vse_razresh = list(set(razresh))  
+      razresh += extension[1]   #збираю всі розширення
+       
       if  len(extension) > 1 and extension[1].lower() in imeges :
          old_path = r'/user/Desktop/Мотлох' + file
          new_path = r'/user/Desktop/Мотлох' + "/images/" + file
@@ -74,8 +69,9 @@ def move_files():
          old_path = r'/user/Desktop/Мотлох' + file
          new_path = r'/user/Desktop/Мотлох' + "/archives/" + file
          shutil.move(old_path,new_path)
+      return razresh
 
-
+list_vse_razresh = list(set(razresh)) # залишаю лише унікальні розширення
 list_music =  os.listdir('/user/Desktop/Мотлох/audio/') 
 list_video = os.listdir('/user/Desktop/Мотлох/video/') 
 list_foto = os.listdir('/user/Desktop/Мотлох/images/') 
