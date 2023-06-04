@@ -34,8 +34,8 @@ def poisk_phone(opr):
       opr.split(" ")
       return f' {slowar_users.get(opr[1], "this name is not")}'
 
-def show_all():
-    return slowar_users
+# def show_all():
+#     return slowar_users
 
 # def bye():
 #   # if opr.find("good bye") or opr.find("close") or opr.find("exit"):
@@ -46,20 +46,19 @@ def main ():
     while  True:
        opr = input("enter comand:")
        if opr == 'hello':
-          print("How can I help you?") 
-       elif  opr.find("add "): 
-         return add_polz(opr)
-       elif opr.find("change "):
-          return change_polz(opr)
-       elif opr.find("phone "):
-          return poisk_phone(opr)
-       elif opr == "show all":
-          print(show_all())
-       elif opr == "good bye" or opr =="close" or opr == "exit" :
-         print("Good bye!")
-         break
-                      
+            print("How can I help you?") 
+       if  opr.find("add "): 
+            return add_polz(opr)
+       if opr.find("change "):
+            return change_polz(opr)
+       if opr.find("phone "):
+            return poisk_phone(opr)
+       if opr == "show all":
+            print(slowar_users)
+       elif opr == "good bye" or opr == "close" or opr == "exit":
+            print("Good bye!")
+            break
+    return                 
       # print (slowar_users)      
-
 if __name__ == '__main__':
  main ()
