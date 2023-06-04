@@ -17,48 +17,43 @@ def input_error(func):
 
 @input_error
 def add_polz(opr):
-      opr.split(" ")
-      slowar_users[opr[1]] = opr[2]
-      return  f' add is ok , name{opr[1]}, phone{opr[2]}'
+      a = opr.split(" ")
+      # print (a)
+      slowar_users[a[1]] = a[2]
+      return f' add is ok , name{a[1]}, phone{a[2]}' 
 
 @input_error
 def change_polz(opr):
-      opr.split(" ")
-      slowar_users[opr[1]] = opr[2] 
-      return  slowar_users
+      chang = opr.split(" ")
+      slowar_users[chang[1]] = chang[2] 
+      return  f'change is all ready'
 
 @input_error
 def poisk_phone(opr):
-      opr.split(" ")
-      return f' {slowar_users.get(opr[1], "this name is not")}'
-
-# def privet():
-#     return "How can I help you?"
-# def show_all():
-#     return slowar_users
-# def bye():
-#   # if opr.find("good bye") or opr.find("close") or opr.find("exit"):
-#    return "Good bye!"
+      poisk = opr.split(" ")
+      return f' {slowar_users.get(poisk[1], "this name is not")}'
  
 def main ():
     while  True:
-       opr = input("enter comand:")
-       opr = opr.lower()
-
-       if opr == 'hello':
+       opr = input("enter command, everything through the gap:")
+       if opr.lower() == 'hello':
             print("How can I help you?") 
-       elif  opr.startswith('add '): 
-            return add_polz(opr)
-       elif opr.startswith('change '):
-            return change_polz(opr)
-       elif opr.startswith('phone '):
-            return poisk_phone(opr)
-       elif opr == 'show all':
+       elif  opr.startswith('add'): 
+            print(add_polz(opr))
+              
+       elif opr.startswith('change'):
+             print (change_polz(opr))
+              
+       elif opr.startswith('phone'):
+             print (poisk_phone(opr))
+              
+       elif opr.lower() == 'show all':
             print(slowar_users)
-       elif opr == 'good bye' or opr == 'close' or opr == 'exit':
+       elif opr.lower() == 'good bye' or opr == 'close' or opr == 'exit':
             print("Good bye!")
             break
-    return                 
+       else:
+            print("Unknown command")            
       # print (slowar_users)      
 if __name__ == '__main__':
  main ()
