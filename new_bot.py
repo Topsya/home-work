@@ -56,8 +56,8 @@ def main ():
        elif opr == "show all":
           print(show_all())
        elif opr == "good bye" or opr =="close" or opr == "exit" :
-           print(bye())
-           continue
+         print(bye())
+         break
                       
       # print (slowar_users)      
 
