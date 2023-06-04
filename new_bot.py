@@ -18,12 +18,13 @@ def input_error(func):
 @input_error
 def add_polz(opr):
       opr.split(" ")
-      return  slowar_users.update({opr[1]: opr[2]})
+      slowar_users[opr[1]] = opr[2]
+      return  f' add is ok , name{opr[1]}, phone{opr[2]}'
 
 @input_error
 def change_polz(opr):
       opr.split(" ")
-      slowar_users.update({opr[1]: opr[2]})
+      slowar_users[opr[1]] = opr[2] 
       return  slowar_users
 
 @input_error
@@ -46,15 +47,15 @@ def main ():
 
        if opr == 'hello':
             print("How can I help you?") 
-       elif  opr.startswith("add "): 
+       elif  opr.startswith('add '): 
             return add_polz(opr)
-       elif opr.startswith("change "):
+       elif opr.startswith('change '):
             return change_polz(opr)
-       elif opr.startswith("phone "):
+       elif opr.startswith('phone '):
             return poisk_phone(opr)
-       elif opr == "show all":
+       elif opr == 'show all':
             print(slowar_users)
-       elif opr == "good bye" or opr == "close" or opr == "exit":
+       elif opr == 'good bye' or opr == 'close' or opr == 'exit':
             print("Good bye!")
             break
     return                 
