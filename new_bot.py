@@ -1,30 +1,6 @@
 
 slowar_users = {}
 
-def privet():
-    return "How can I help you?"
-
-def add_polz(opr):
-      opr.split(" ")
-      return  slowar_users.update({opr[1]: opr[2]})
-
-def change_polz(opr):
-      opr.split(" ")
-      slowar_users.update({opr[1]: opr[2]})
-      return  slowar_users
-
-def poisk_phone(opr):
-      opr.split(" ")
-      return f' {slowar_users.get(opr[1], "this name is not")}'
-
-def show_all():
-    return slowar_users
-
-def bye():
-  # if opr.find("good bye") or opr.find("close") or opr.find("exit"):
-     return "Good bye!"
- 
-
 def input_error(func):
    def inner(*args, **kwargs):
       # if opr.find("change "):
@@ -39,18 +15,44 @@ def input_error(func):
               print("ValueError. Please try again. ")       
    return inner
 
+def privet():
+    return "How can I help you?"
+
 @input_error
+def add_polz(opr):
+      opr.split(" ")
+      return  slowar_users.update({opr[1]: opr[2]})
+
+@input_error
+def change_polz(opr):
+      opr.split(" ")
+      slowar_users.update({opr[1]: opr[2]})
+      return  slowar_users
+
+@input_error
+def poisk_phone(opr):
+      opr.split(" ")
+      return f' {slowar_users.get(opr[1], "this name is not")}'
+
+def show_all():
+    return slowar_users
+
+def bye():
+  # if opr.find("good bye") or opr.find("close") or opr.find("exit"):
+   return "Good bye!"
+ 
+
 def main ():
     while  True:
        opr = input("enter comand:")
        if opr == 'hello':
           print(privet()) 
        elif  opr.find("add "): 
-         return add_polz()
+         return add_polz(opr)
        elif opr.find("change "):
-          return change_polz()
+          return change_polz(opr)
        elif opr.find("phone "):
-          return poisk_phone()
+          return poisk_phone(opr)
        elif opr == "show all":
           print(show_all())
        elif opr == "good bye" or opr =="close" or opr == "exit" :
@@ -59,6 +61,6 @@ def main ():
                       
       # print (slowar_users)      
 
-# opr = input("enter comand:")
+ 
 main ()
 # if __name__ == '__main__':
