@@ -15,9 +15,6 @@ def input_error(func):
               print("ValueError. Please try again. ")       
    return inner
 
-# def privet():
-#     return "How can I help you?"
-
 @input_error
 def add_polz(opr):
       opr.split(" ")
@@ -34,24 +31,26 @@ def poisk_phone(opr):
       opr.split(" ")
       return f' {slowar_users.get(opr[1], "this name is not")}'
 
+# def privet():
+#     return "How can I help you?"
 # def show_all():
 #     return slowar_users
-
 # def bye():
 #   # if opr.find("good bye") or opr.find("close") or opr.find("exit"):
 #    return "Good bye!"
  
-
 def main ():
     while  True:
        opr = input("enter comand:")
+       opr = opr.lower()
+
        if opr == 'hello':
             print("How can I help you?") 
-       if  opr.find("add "): 
+       if  opr.startswith("add "): 
             return add_polz(opr)
-       if opr.find("change "):
+       if opr.startswith("change "):
             return change_polz(opr)
-       if opr.find("phone "):
+       if opr.startswith("phone "):
             return poisk_phone(opr)
        if opr == "show all":
             print(slowar_users)
