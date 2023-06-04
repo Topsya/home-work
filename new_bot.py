@@ -61,6 +61,5 @@ def main ():
                       
       # print (slowar_users)      
 
- 
-main ()
-# if __name__ == '__main__':
+if __name__ == '__main__':
+ main ()
