@@ -6,8 +6,6 @@ class Field:
 
 class Name(Field):
     pass
-    # def __init__(self, name):
-    #     self.name = name
     # def __init__(self, value):
     #     self.value = value
 class Phone(Field):
@@ -31,15 +29,3 @@ class AddressBook(UserDict):
       self.data[record.name.value] = record
                     # Як ключі використовується значення Record.name.value 
 
-if __name__ == "__main__":
-    name = Name ('Bill')
-    phone = Phone ('123')
-    rec = Record(name, phone)
-    ab = AddressBook()
-    ab.add_record(rec)
-    assert isinstance(ab['Bill'],Record)
-    assert isinstance(ab['Bill'].name,Name)
-    assert isinstance(ab['Bill'].phones,list)
-    assert isinstance(ab['Bill'].phones[0],Phone)
-  #  assert ab['Bill'].phones[0].value == '123'
-print ('all ok')
