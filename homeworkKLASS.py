@@ -6,23 +6,21 @@ class Field:
 
 class Name(Field):
     pass
-    # def __init__(self, name):
-    #     self.name = name
     # def __init__(self, value):
     #     self.value = value
 class Phone(Field):
-    def __init__(self, name, phone=None):
-        self.name = name
+    def __init__(self,phone):
         self.phone = phone
        
 class Record:
     phone = []
 
-    def __init__(self, name, phone):
+    def __init__(self, name, phone=None):
         self.name = name 
+        self.phones = []
 
         if phone:
-            self.phones = []
+            
             self.phones.append(phone)
 
 class AddressBook(UserDict):
