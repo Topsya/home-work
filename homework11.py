@@ -61,7 +61,22 @@ class AddressBook(UserDict):
  
     def add_record(self, record):
       self.data[record.name.value] = record
-                    
+
+    # def iterator(self):
+   
+    def __iter__(self):
+      return self
+    def __next__(self):
+       # скільки повертає записів з AddressBook на одну сторінку N
+        N = 5 
+        self.current = 0 
+
+        if self.current  <= N:
+            self.current  += 1
+            return self.current 
+        raise StopIteration
+    
+
 
 # if __name__ == "__main__":
 #     name = Name ('Bill')
