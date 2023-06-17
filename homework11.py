@@ -19,10 +19,10 @@ class Phone(Field):
 
     @phone.setter
     def phone(self, phone):
-            if re.findall(r"\+\d{12}",phone):
+            if re.findall(r'\d{11}', phone):
                 self.phone = phone
             else:
-                raise ValueError("Enter number '+' and 12 digits : ")
+                print ("Enter number '+' and 12 digits : ")
 
 class Birthday(Field)   :
     def __init__(self, birthday):
@@ -36,7 +36,7 @@ class Birthday(Field)   :
             if datetime.strptime(birthday, '%m/%d/%Y'):
                 self.birthday = birthday
             else:
-                raise ValueError("Birthday format data mm/dd/yyyy : ")
+                print ("Birthday format data mm/dd/yyyy : ")
 
 
         
@@ -79,15 +79,15 @@ class AddressBook(UserDict):
     
 
 
-# if __name__ == "__main__":
-#     name = Name ('Bill')
-#     phone = Phone ('+123456789101')
-#     rec = Record(name, phone)
-#     ab = AddressBook()
-#     ab.add_record(rec)
-#     assert isinstance(ab['Bill'],Record)
-#     assert isinstance(ab['Bill'].name,Name)
-#     assert isinstance(ab['Bill'].phones,list)
-#     assert isinstance(ab['Bill'].phones[0],Phone)
-#     assert ab['Bill'].phones[0].value == '123'
-# print ('all ok')
+if __name__ == "__main__":
+    name = Name ('Bill')
+    phone = Phone ('+123456789101')
+    # rec = Record(name, phone)
+    # ab = AddressBook()
+    # ab.add_record(rec)
+    # assert isinstance(ab['Bill'],Record)
+    # assert isinstance(ab['Bill'].name,Name)
+    # assert isinstance(ab['Bill'].phones,list)
+    # assert isinstance(ab['Bill'].phones[0],Phone)
+    # assert ab['Bill'].phones[0].value == '123'
+print ('all ok')
