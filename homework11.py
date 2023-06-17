@@ -12,32 +12,33 @@ class Name(Field):
 class Phone(Field):
     def __init__(self,phone):
         self.phone = phone
+    
+    @property
+    def phone(self):
+            return self.phone
+
+    @phone.setter
+    def phone(self, phone):
+            if re.findall(r"\+\d{12}",phone):
+                self.phone = phone
+            else:
+                raise ValueError("Enter number '+' and 12 digits : ")
 
 class Birthday(Field)   :
     def __init__(self, birthday):
         self.birthday = birthday
+    @property
+    def birthday(self):
+            return self.birthday
+        
+    @birthday.setter
+    def birthday(self, birthday):
+            if datetime.strptime(birthday, '%m/%d/%Y'):
+                self.birthday = birthday
+            else:
+                raise ValueError("Birthday format data mm/dd/yyyy : ")
 
-@property
-def phone(self):
-        return self.phone
 
-@phone.setter
-def phone(self, phone):
-        if re.findall(r"\+\d{12}",phone):
-            self.phone = phone
-        else:
-            raise ValueError("Enter number '+' and 12 digits : ")
-    
-@property
-def birthday(self):
-        return self.birthday
-    
-@birthday.setter
-def birthday(self, birthday):
-        if datetime.strptime(birthday, '%m/%d/%Y'):
-            self.birthday = birthday
-        else:
-            raise ValueError("Birthday format data mm/dd/yyyy : ")
         
 class Record:
     phone = []
