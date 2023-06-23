@@ -18,12 +18,17 @@ def find_name_phone():
    unpacked_users = unpacked_file()
    vod_poisk = input('enter Name or Phone of abonent : ')
    # unpacked_users = unpacked_users.encod('utf-8')
+   result = {}
    for i in unpacked_users:
         for value in i.values():
             if vod_poisk in value:
-                print (f'  {i} ')
-            else: 
-                print ('no matches found in AdresBook')
+                result.update(i)
+            # else: 
+            #     print ('no matches found in AdresBook')
+        
+   if result == {}:
+            print ('no matches found in AdresBook')
+   print (result)
 
 
 if __name__ == '__main__':
