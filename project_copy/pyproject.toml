@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "personal-assiste3-0"
+version = "0.3.0"
+description = ""
+authors = ["Anton Mescheryakov"]
+readme = "README.md"
+packages = [{include = "personal_assiste3"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pyowm = "^3.3.0"
+pathlib = "^1.0.1"
+setuptools = "^68.0.0"
+datetime = "^5.2"
+
+[tool.poetry.dev-dependencies]
+pygame = "2.5.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
