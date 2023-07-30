@@ -3,7 +3,7 @@
 FROM python:3.10
 
 # Встановимо змінну середовища
-ENV APP_HOME /
+ENV APP_HOME /Assistent
 
 # Встановимо робочу директорію всередині контейнера
 WORKDIR $APP_HOME
