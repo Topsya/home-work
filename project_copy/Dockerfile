@@ -3,7 +3,7 @@
 FROM python:3.10
 
 # Встановимо змінну середовища
-ENV APP_HOME /Assistent
+ENV  APP_HOME /Assistent
 
 # Встановимо робочу директорію всередині контейнера
 WORKDIR $APP_HOME
@@ -19,7 +19,7 @@ RUN poetry config virtualenvs.create false
 
 
 # Скопіюємо інші файли в робочу директорію контейнера
-COPY .  .
+COPY $APP_HOME /Assistent
 
 # Позначимо порт, де працює застосунок всередині контейнера
 EXPOSE 5000
