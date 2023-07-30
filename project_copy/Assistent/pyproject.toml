@@ -1,13 +1,21 @@
 [tool.poetry]
-name = "assistent"
-version = "0.1.0"
+name = "personal-assiste3-0"
+version = "0.3.0"
 description = ""
-authors = ["Topsya <topsya1986@gmail.com>"]
+authors = ["Anton Mescheryakov"]
 readme = "README.md"
+
 
 [tool.poetry.dependencies]
 python = "^3.10"
+pyowm = "^3.3.0"
+pathlib = "^1.0.1"
+setuptools = "^68.0.0"
+datetime = "^5.2"
+flask = "2.3.2"
 
+[tool.poetry.dev-dependencies]
+pygame = "2.5.0"
 
 [build-system]
 requires = ["poetry-core"]

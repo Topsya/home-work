@@ -3,23 +3,23 @@
 FROM python:3.10
 
 # Встановимо змінну середовища
-ENV  APP_HOME /Assistent
+ENV APP_HOME /app
 
 # Встановимо робочу директорію всередині контейнера
 WORKDIR $APP_HOME
 
-COPY  pyproject.toml $APP_HOME/Assistent/pyproject.toml
-COPY poetry.lock $APP_HOME/Assistent/poetry.lock
+COPY  pyproject.toml $APP_HOME/pyproject.toml
+COPY poetry.lock $APP_HOME/poetry.lock
 
 
 # Встановимо залежності всередині контейнера
 RUN pip install poetry
-RUN poetry config virtualenvs.create false 
-# RUN poetry install --only main
+RUN poetry config virtualenvs.create false  && poetry install --only main
+
 
 
 # Скопіюємо інші файли в робочу директорію контейнера
-COPY $APP_HOME /Assistent
+COPY .  .
 
 # Позначимо порт, де працює застосунок всередині контейнера
 EXPOSE 5000
