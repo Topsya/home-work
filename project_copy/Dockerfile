@@ -8,8 +8,8 @@ ENV  APP_HOME /Assistent
 # Встановимо робочу директорію всередині контейнера
 WORKDIR $APP_HOME
 
-COPY  pyproject.toml $APP_HOME/pyproject.toml
-COPY poetry.lock $APP_HOME/poetry.lock
+COPY  pyproject.toml $APP_HOME/Assistent/pyproject.toml
+COPY poetry.lock $APP_HOME/Assistent/poetry.lock
 
 
 # Встановимо залежності всередині контейнера
