@@ -1,6 +1,8 @@
 from pathlib import Path
 import shutil
 import os
+import concurrent.futures
+# from concurrent.futures import ThreadPoolExecuto
 
 
 
@@ -50,23 +52,29 @@ def move_files(path):
             new_path = os.path.join(path,'archives',file)
             shutil.move(old_path,new_path)
             list_archiv =os.listdir(os.path.join(path,'archives'))
+         # else :
+         #    new_path = os.path.join(path,file)
+         #    shutil.move(new_path)
+            list_neizvestnie =os.listdir(os.path.join(path))
     
 
-   pattern_parsinga = path.iterdir()
-   for i in pattern_parsinga:
 
-            if  i.is_dir():                
-                if i.name in Spisok_papok:
-                    print(f'Не видаляти папку  {i.name} ')
-                else:
-                    print(f'Цю папку {i.name} потрібно видалити')   
-                    try:
-                        os.rmdir(i)
-                    except: OSError
-                    else:
-                        print(f' Папка {i} видалена')
-                    finally:
-                        print('Зробленно  -----')
+   # pattern_parsinga = path.iterdir()
+
+   # for i in pattern_parsinga:
+
+   #             if  i.is_dir():                
+   #                if i.name in Spisok_papok:
+   #                   print(f'Не видаляти папку  {i.name} ')
+   #                else:
+   #                   print(f'Цю папку {i.name} потрібно видалити')   
+   #                   try:
+   #                         os.rmdir(i)
+   #                   except: OSError
+   #                   else:
+   #                         print(f' Папка {i} видалена')
+   #                   finally:
+   #                         print('Зробленно  -----')
 
    # list_vse_razresh = set(razresh)   
    # list_neizvestnie = path.glob('*.*')
@@ -78,11 +86,26 @@ def move_files(path):
               'list_doc': list_doc,
               'list_archiv': list_archiv,
             # 'list_vse_razresh': list_vse_razresh,
-            # 'list_neizvestnie': list_neizvestnie,
+              'list_neizvestnie': list_neizvestnie,
             })
      
 # Перелік всіх розширень, які скрипту невідомі.
 
 if __name__ == '__main__': 
-      path = Path(input('Введіть путь папки де потрібно зробити сортування файлів: '))
-      move_files (path)
+      while True:
+                path = Path(input('Enter the path of the folder where you want to sort files\n("Введіть путь папки де потрібно зробити сортування файлів"): '))
+                if len(str(path)) <= 1:
+                    print ("--You didn't lead anything, try another path\n   ('ви нічого не вели, спробуй другой шляx')\n--------------------------------------")
+                     
+                else :      
+                    try:
+                        executor =  concurrent.futures.ThreadPoolExecutor(4)
+                        executor.submit(move_files,path)
+                        break
+                    except :
+                        print ('The path to the folder was not found\n ("Путь к папке не знайден")\n ------------------------------------------------------------------ ')
+                        
+      
+
+      
+
