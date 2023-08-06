@@ -52,32 +52,9 @@ def move_files(path):
             new_path = os.path.join(path,'archives',file)
             shutil.move(old_path,new_path)
             list_archiv =os.listdir(os.path.join(path,'archives'))
-         # else :
-         #    new_path = os.path.join(path,file)
-         #    shutil.move(new_path)
+         else :
             list_neizvestnie =os.listdir(os.path.join(path))
-    
 
-
-   # pattern_parsinga = path.iterdir()
-
-   # for i in pattern_parsinga:
-
-   #             if  i.is_dir():                
-   #                if i.name in Spisok_papok:
-   #                   print(f'Не видаляти папку  {i.name} ')
-   #                else:
-   #                   print(f'Цю папку {i.name} потрібно видалити')   
-   #                   try:
-   #                         os.rmdir(i)
-   #                   except: OSError
-   #                   else:
-   #                         print(f' Папка {i} видалена')
-   #                   finally:
-   #                         print('Зробленно  -----')
-
-   # list_vse_razresh = set(razresh)   
-   # list_neizvestnie = path.glob('*.*')
 
    print ({  
               'list_music':  list_music,
@@ -88,8 +65,32 @@ def move_files(path):
             # 'list_vse_razresh': list_vse_razresh,
               'list_neizvestnie': list_neizvestnie,
             })
-     
-# Перелік всіх розширень, які скрипту невідомі.
+   
+   # list_vse_razresh = set(razresh)   
+   # list_neizvestnie = path.glob('*.*')     
+                 # Перелік всіх розширень, які скрипту невідомі.
+
+def del_pattern(path):
+
+   Spisok_papok = ('imeges','documents','audio','video','archives')
+   pattern_parsinga = path.iterdir()
+
+   for i in pattern_parsinga:
+
+               if  i.is_dir():                
+                  if i.name in Spisok_papok:
+                     print(f'Не видаляти папку  {i.name} ')
+                  else:
+                     print(f'Цю папку {i.name} потрібно видалити')   
+                     try:
+                           os.rmdir(i)
+                     except: OSError
+                     else:
+                           print(f' Папка {i} видалена')
+                     finally:
+                           print('Зробленно  -----')
+
+   
 
 if __name__ == '__main__': 
       while True:
@@ -101,10 +102,11 @@ if __name__ == '__main__':
                     try:
                         executor =  concurrent.futures.ThreadPoolExecutor(4)
                         executor.submit(move_files,path)
+                        del_pattern(path)
                         break
                     except :
                         print ('The path to the folder was not found\n ("Путь к папке не знайден")\n ------------------------------------------------------------------ ')
-                        
+                        break
       
 
       

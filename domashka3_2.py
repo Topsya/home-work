@@ -10,13 +10,11 @@ def factorize(number):
     
     print ( list(set.intersection(*[value for value in results.values()])))
 
-# print (result)
 if __name__ == '__main__':
     a = [128, 255, 99999, 10651060]
 
     with Pool(processes=4) as pool:
          pool.map(factorize,a)
       
-         pool.close()
 
  
