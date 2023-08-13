@@ -11,7 +11,6 @@ from datetime import datetime
 
 
 BASE_DIR = pathlib.Path()
-# env = Environment(loader=FileSystemLoader('templates'))
 
 class MainServer(BaseHTTPRequestHandler):
 
