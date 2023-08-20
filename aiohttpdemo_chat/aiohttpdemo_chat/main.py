@@ -5,7 +5,7 @@ import aiohttp_jinja2
 from aiohttp import web
 from privat import get_exchange
 from faker import Faker
-
+from jinja2 import environment , PackageLoader 
 
 async def init_app():
 
@@ -15,8 +15,8 @@ async def init_app():
 
     app.on_shutdown.append(shutdown)
 
-    # aiohttp_jinja2.setup(
-    #     app, loader=jinja2.PackageLoader('aiohttpdemo_chat', 'templates'))
+    aiohttp_jinja2.setup(
+        app, loader= PackageLoader( r'  aiohttpdemo_chat\aiohttpdemo_chat\templates\ '))
 
     app.router.add_get('/', index)
 
@@ -41,7 +41,7 @@ def main():
     logging.basicConfig(level=logging.DEBUG)
 
     app = init_app()
-    web.run_app(app)
+    web.run_app(app, host='127.0.0.1', port=8000)
 
 
 log = logging.getLogger(__name__)
