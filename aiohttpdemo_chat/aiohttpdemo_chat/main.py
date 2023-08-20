@@ -16,7 +16,7 @@ async def init_app():
     app.on_shutdown.append(shutdown)
 
     aiohttp_jinja2.setup(
-        app, loader= PackageLoader( r'  aiohttpdemo_chat\aiohttpdemo_chat\templates\ '))
+        app, loader=jinja2.PackageLoader('aiohttpdemo_chat', 'templates'))
 
     app.router.add_get('/', index)
 
