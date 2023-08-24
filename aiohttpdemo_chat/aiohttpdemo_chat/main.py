@@ -5,7 +5,7 @@ import aiohttp_jinja2
 from aiohttp import web
 from privat import get_exchange
 from faker import Faker
-from jinja2 import environment , PackageLoader 
+ 
 
 async def init_app():
 

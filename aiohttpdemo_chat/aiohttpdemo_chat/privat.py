@@ -47,11 +47,11 @@ if __name__ == '__main__':
     print (kod_valyut)
     currency_code = input('Currencie code : ')
     data_need = input('Enter data you need "dd.mm..yyyy": ')
-    new_data=  datetime.now() - datetime.strptime(data_need, "%d.%m.%Y")
-    print (new_data)
-    if new_data <=  timedelta(days=10):
-        result = asyncio.run(get_exchange(currency_code, data_need))
-        print (result)
-    else :
-        print ('Your date is more than 10 days ago')
+    # new_data=  datetime.now() - datetime.strptime(data_need, "%d.%m.%Y")
+    # print (new_data)
+    # if new_data <=  timedelta(days=10):
+    result = asyncio.run(get_exchange(currency_code, data_need))
+    print (result)
+    # else :
+    #     print ('Your date is more than 10 days ago')
 
