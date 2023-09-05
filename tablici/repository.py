@@ -52,13 +52,13 @@ def populate_db():
 
     
    
-    # grade_sql_command = "\n".join(f"INSERT INTO grades ( grades_by_subjectde ) VALUES ( '{[randint(1,5) for _ in range(20)]}'  ); "  )
-    # with sqlite3.connect('todo.db') as con:
-    #     cur = con.cursor()
-    #     cur.executescript(grade_sql_command) 
-    #     cur.execute("SELECT * from grades;") 
-    #     res = [obj[0:4] for obj in cur.fetchall()]
-    #     print (res)
+    grade_sql_command = "\n".join(f"INSERT INTO grades ( student , subjectname, grades_by_subjectde, wen_time ) VALUES (?,?,{randint(1,5)},?); "  )
+    with sqlite3.connect('todo.db') as con:
+        cur = con.cursor()
+        cur.executescript(grade_sql_command) 
+        cur.execute("SELECT * from grades;") 
+        res = [obj[0:4] for obj in cur.fetchall()]
+        print (res)
 
  
 def check_db():
