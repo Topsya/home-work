@@ -1,6 +1,6 @@
-from datetime import datetime
+# from datetime import datetime
 
-class Stusent:
+class Student:
     def __init__(self, name=str ):
           self.name = name
 
@@ -13,11 +13,15 @@ class   Teachers :
           self.teachers = teachers    
 
 class Subjects :
-     def __init__(self, subjects= str ):
-          self.subjects = subjects    
+     def __init__(self, subjects= str, subjects_teachers= str):
+          self.subjects = subjects   
+          self.subjects_teachers = subjects_teachers 
 
 class Grade :
-     def __init__(self, grade= int, wen_time= datetime ):
-          self.grade = grade   
-          self.wen_time =  wen_time
+     def __init__(self,grades_by_subject, student= str, subjects= str):
+          
+          self.grades_by_subject = grades_by_subject 
+          self.student = student 
+          self.subjects = subjects   
+          
 

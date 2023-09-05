@@ -1,0 +1,43 @@
+
+DROP TABLE IF EXISTS students;
+CREATE TABLE students (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255) NOT NULL
+);
+
+DROP TABLE IF EXISTS groups;
+CREATE TABLE groups (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255) NOT NULL
+);
+
+DROP TABLE IF EXISTS teachers;
+CREATE TABLE teachers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255) NOT NULL
+);
+
+DROP TABLE IF EXISTS subjects;
+CREATE TABLE subjects (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255)  NOT NULL,
+    subjects_teachers NOT NULL,
+    FOREIGN KEY (subjects_teachers) REFERENCES  teachers (name)
+       ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS grade;
+CREATE TABLE grade (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    student VARCHAR(255)  NOT NULL,
+    subjectname VARCHAR(255)  NOT NULL,
+    grades_by_subject VARCHAR(255)  NOT NULL,
+    wen_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (student) REFERENCES  students (name)
+      ON DELETE CASCADE
+    FOREIGN KEY (subjectname) REFERENCES  subjects (name)
+      ON DELETE CASCADE
+
+);
