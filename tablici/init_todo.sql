@@ -29,13 +29,14 @@ CREATE TABLE subjects (
 DROP TABLE IF EXISTS grade;
 CREATE TABLE grade (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    student INT,
-    subjectname INT,
-    grades_by_subject INTEGER,
-    wen_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP  NOT NULL,
+    student_id INT,
+    subject_id INT,
+    date_of TIMESTAMP DEFAULT CURRENT_TIMESTAMP  NOT NULL,
+    grade  INTEGER,
 
-    FOREIGN KEY (student) REFERENCES  students (id)
-    FOREIGN KEY (subjectname) REFERENCES  subjects (id)
+    FOREIGN KEY (student_id) REFERENCES  students (id)
+    FOREIGN KEY (subject_id) REFERENCES  subjects (id)
       ON DELETE SET NULL
 
 );
+

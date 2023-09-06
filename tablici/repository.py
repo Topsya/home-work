@@ -1,5 +1,5 @@
 import sqlite3
-from faker import Faker 
+from faker import Faker
 from random import randint
 import random 
 from datetime import datetime
@@ -22,8 +22,8 @@ def populate_db():
         cur.execute("SELECT name from students;")
         # students_ids = [obj[0] for obj in cur.fetchall()] 
         students_name = [obj[0] for obj in cur.fetchall()] 
-        print(students_name)       
-        # print(students_ids)
+        # print(students_name)       
+       
 
 
     groups_sql_command = "\n".join(f"INSERT INTO groups (name) VALUES ('groups N{i}');"  for i in range(3))
@@ -32,7 +32,7 @@ def populate_db():
         cur.executescript(groups_sql_command)
         cur.execute("SELECT name from groups;")
         groups_name = [obj[0] for obj in cur.fetchall()]        
-        print(groups_name)
+        # print(groups_name)
     
     teachers_sql_command = "\n".join(f"INSERT INTO teachers (name) VALUES ('{Faker().name()}');" for _ in range(7))
     with sqlite3.connect('todo.db') as con:
@@ -40,7 +40,7 @@ def populate_db():
         cur.executescript(teachers_sql_command)
         cur.execute("SELECT name from teachers;")
         teachers_name = [obj[0] for obj in cur.fetchall()]        
-        print(teachers_name)
+        # print(teachers_name)
     
     subjects_sql_command = "\n".join(f"INSERT INTO subjects (name, subjects_teachers) VALUES ('subjects N {j+1}', '{teachers_name[j] }' );" for j in range(5) )
     with sqlite3.connect('todo.db') as con:
@@ -48,18 +48,45 @@ def populate_db():
         cur.executescript(subjects_sql_command)
         cur.execute("SELECT * from subjects;") 
         subjects_name =  [ obj[1] for obj in cur.fetchall()]
-        print(subjects_name)
+        # print(subjects_name)
 
     
    
-    grade_sql_command = "\n".join(f"INSERT INTO grades ( student , subjectname, grades_by_subjectde, wen_time ) VALUES (?,?,{randint(1,5)},?); "  )
-    with sqlite3.connect('todo.db') as con:
-        cur = con.cursor()
-        cur.executescript(grade_sql_command) 
-        cur.execute("SELECT * from grades;") 
-        res = [obj[0:4] for obj in cur.fetchall()]
-        print (res)
+   
+    
+    grade_sql_command = """ CREATE TABLE grades (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    student_id INT,
+                    subject_id INT,
+                     
+                    date_of TIMESTAMP DEFAULT CURRENT_TIMESTAMP  NOT NULL,
+                    grade NOT NULL,
 
+                    FOREIGN KEY (student_id) REFERENCES  students (id)
+                    FOREIGN KEY (subject_id) REFERENCES  subjects (id)
+                      ON DELETE SET NULL
+
+                );"""
+    # with sqlite3.connect('todo.db') as con:
+    #         cur = con.cursor()
+    #         cur.execute(grade_sql_command)
+    #         cur.close()
+
+    for_grades = []
+    
+    for student_id in range(1, len(students_name) + 1):
+        for subject_id in range(1, len(subjects_name) + 1):
+            for _ in range(randint(1, 20)):
+                    date_of = datetime.now()
+                    grade = randint(1, 12)
+                    for_grades.append((student_id, subject_id, date_of, grade))
+
+
+    grade_sql_command = """INSERT INTO  grades (student_id, subject_id, date_of, grade)
+                                VALUES (?, ?, ?, ?)"""
+    cur.executemany(grade_sql_command, for_grades)
+
+    con.commit()
  
 def check_db():
     with sqlite3.connect('todo.db') as con:
@@ -86,11 +113,11 @@ def check_db():
         result = cur.fetchall()
     print(result)
 
-#     with sqlite3.connect('todo.db') as con:
-#         cur = con.cursor()
-#         cur.execute("SELECT * from grades;")
-#         result = cur.fetchall()
-#     print(result)
+    # with sqlite3.connect('todo.db') as con:
+    #     cur = con.cursor()
+    #     cur.execute("SELECT * from grades;")
+    #     result = cur.fetchall()
+    # print(result)
 
 
 def select(table_name:str, condition=None):
@@ -123,5 +150,6 @@ def delete(table_name:str, condition=None):
 
 create_db()
 populate_db()
-# check_db()
+check_db()
+
 
