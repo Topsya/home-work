@@ -76,7 +76,7 @@ def populate_db():
     
     for student_id in range(1, len(students_name) + 1):
         for subject_id in range(1, len(subjects_name) + 1):
-            for _ in range(randint(1, 20)):
+            for _ in range( 20):
                     date_of = datetime.now()
                     grade = randint(1, 12)
                     for_grades.append((student_id, subject_id, date_of, grade))
@@ -93,30 +93,30 @@ def check_db():
         cur = con.cursor()
         cur.execute("SELECT * from students;")
         result = cur.fetchall()
-    print(result)
+    # print(result)
 
     with sqlite3.connect('todo.db') as con:
         cur = con.cursor()
         cur.execute("SELECT * from groups;")
         result = cur.fetchall()
-    print(result)
+    # print(result)
 
     with sqlite3.connect('todo.db') as con:
         cur = con.cursor()
         cur.execute("SELECT * from teachers;")
         result = cur.fetchall()
-    print(result)
+    # print(result)
 
     with sqlite3.connect('todo.db') as con:
         cur = con.cursor()
         cur.execute("SELECT * from subjects;")
         result = cur.fetchall()
-    print(result)
+    # print(result)
 
-    # with sqlite3.connect('todo.db') as con:
-    #     cur = con.cursor()
-    #     cur.execute("SELECT * from grades;")
-    #     result = cur.fetchall()
+    with sqlite3.connect('todo.db') as con:
+        cur = con.cursor()
+        cur.execute("SELECT * from grades;")
+        result = cur.fetchall()
     # print(result)
 
 
@@ -150,6 +150,5 @@ def delete(table_name:str, condition=None):
 
 create_db()
 populate_db()
-check_db()
-
+# check_db()
 
