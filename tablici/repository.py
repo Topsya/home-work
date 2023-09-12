@@ -15,7 +15,17 @@ def create_db():
         
 
 def populate_db():
-    students_sql_command = "\n".join(f"INSERT INTO students (name) VALUES ('{Faker().name()}');" for _ in range(40))
+     
+    groups_sql_command = "\n".join(f"INSERT INTO groups (name) VALUES ('groups N{i+1}');"  for i in range(3))
+    with sqlite3.connect('todo.db') as con:
+        cur = con.cursor()
+        cur.executescript(groups_sql_command)
+        cur.execute("SELECT name from groups;")
+        groups_name = [obj[0] for obj in cur.fetchall()]        
+        # print(groups_name)
+
+
+    students_sql_command = "\n".join(f"INSERT INTO students (name, groups_id ) VALUES ('{Faker().name()}', '{random.choice(groups_name)}');" for _ in range(40))
     with sqlite3.connect('todo.db') as con:
         cur = con.cursor()
         cur.executescript(students_sql_command)
@@ -25,16 +35,7 @@ def populate_db():
         # print(students_name)       
        
 
-
-    groups_sql_command = "\n".join(f"INSERT INTO groups (name) VALUES ('groups N{i}');"  for i in range(3))
-    with sqlite3.connect('todo.db') as con:
-        cur = con.cursor()
-        cur.executescript(groups_sql_command)
-        cur.execute("SELECT name from groups;")
-        groups_name = [obj[0] for obj in cur.fetchall()]        
-        # print(groups_name)
-    
-    teachers_sql_command = "\n".join(f"INSERT INTO teachers (name) VALUES ('{Faker().name()}');" for _ in range(7))
+    teachers_sql_command = "\n".join(f"INSERT INTO teachers (name) VALUES ('{Faker().name()}');" for _ in range(5))
     with sqlite3.connect('todo.db') as con:
         cur = con.cursor()
         cur.executescript(teachers_sql_command)
@@ -42,7 +43,7 @@ def populate_db():
         teachers_name = [obj[0] for obj in cur.fetchall()]        
         # print(teachers_name)
     
-    subjects_sql_command = "\n".join(f"INSERT INTO subjects (name, subjects_teachers) VALUES ('subjects N {j+1}', '{teachers_name[j] }' );" for j in range(5) )
+    subjects_sql_command = "\n".join(f"INSERT INTO subjects (name, teachers_id ) VALUES ('subjects N {j+1}', '{random.choice(teachers_name)}'  );" for j in range(8) )
     with sqlite3.connect('todo.db') as con:
         cur = con.cursor()
         cur.executescript(subjects_sql_command)
@@ -54,97 +55,98 @@ def populate_db():
    
    
     
-    grade_sql_command = """ CREATE TABLE grades (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                    student_id INT,
-                    subject_id INT,
+    # grade_sql_command = """ CREATE TABLE grades (
+    #                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    #                 student_id INT,
+    #                 subject_id INT,
                      
-                    date_of TIMESTAMP DEFAULT CURRENT_TIMESTAMP  NOT NULL,
-                    grade NOT NULL,
+    #                 date_of TIMESTAMP DEFAULT CURRENT_TIMESTAMP  NOT NULL,
+    #                 grade NOT NULL,
 
-                    FOREIGN KEY (student_id) REFERENCES  students (id)
-                    FOREIGN KEY (subject_id) REFERENCES  subjects (id)
-                      ON DELETE SET NULL
+    #                 FOREIGN KEY (student_id) REFERENCES  students (id)
+    #                 FOREIGN KEY (subject_id) REFERENCES  subjects (id)
+    #                   ON DELETE SET NULL
 
-                );"""
+    #             );"""
     # with sqlite3.connect('todo.db') as con:
     #         cur = con.cursor()
     #         cur.execute(grade_sql_command)
     #         cur.close()
 
+
     for_grades = []
     
     for student_id in range(1, len(students_name) + 1):
         for subject_id in range(1, len(subjects_name) + 1):
-            for _ in range( 20):
+            for _ in range(20):
                     date_of = datetime.now()
                     grade = randint(1, 12)
                     for_grades.append((student_id, subject_id, date_of, grade))
-
-
-    grade_sql_command = """INSERT INTO  grades (student_id, subject_id, date_of, grade)
-                                VALUES (?, ?, ?, ?)"""
-    cur.executemany(grade_sql_command, for_grades)
-
-    con.commit()
+    
+    with sqlite3.connect('todo.db') as con:
+            cur = con.cursor()
+            grade_sql_command = """INSERT INTO  grades (student_id, subject_id, date_of, grade)
+                                        VALUES (?, ?, ?, ?)"""
+            cur.executemany(grade_sql_command, for_grades )
+            con.commit()
  
-def check_db():
-    with sqlite3.connect('todo.db') as con:
-        cur = con.cursor()
-        cur.execute("SELECT * from students;")
-        result = cur.fetchall()
-    # print(result)
+# def check_db():
+#     with sqlite3.connect('todo.db') as con:
+#         cur = con.cursor()
+#         cur.execute("SELECT * from students;")
+#         result = cur.fetchall()
+#     # print(result)
 
-    with sqlite3.connect('todo.db') as con:
-        cur = con.cursor()
-        cur.execute("SELECT * from groups;")
-        result = cur.fetchall()
-    # print(result)
+#     with sqlite3.connect('todo.db') as con:
+#         cur = con.cursor()
+#         cur.execute("SELECT * from groups;")
+#         result = cur.fetchall()
+#     # print(result)
 
-    with sqlite3.connect('todo.db') as con:
-        cur = con.cursor()
-        cur.execute("SELECT * from teachers;")
-        result = cur.fetchall()
-    # print(result)
+#     with sqlite3.connect('todo.db') as con:
+#         cur = con.cursor()
+#         cur.execute("SELECT * from teachers;")
+#         result = cur.fetchall()
+#     # print(result)
 
-    with sqlite3.connect('todo.db') as con:
-        cur = con.cursor()
-        cur.execute("SELECT * from subjects;")
-        result = cur.fetchall()
-    # print(result)
+#     with sqlite3.connect('todo.db') as con:
+#         cur = con.cursor()
+#         cur.execute("SELECT * from subjects;")
+#         result = cur.fetchall()
+#     # print(result)
 
-    with sqlite3.connect('todo.db') as con:
-        cur = con.cursor()
-        cur.execute("SELECT * from grades;")
-        result = cur.fetchall()
-    # print(result)
-
-
-def select(table_name:str, condition=None):
-    if condition is not None:
-        querry = f"SELECT * FROM {table_name} WHERE {condition};"
-    else:
-        querry = f"SELECT * FROM {table_name};"
+#     with sqlite3.connect('todo.db') as con:
+#         cur = con.cursor()
+#         cur.execute("SELECT * from grades;")
+#         result = cur.fetchall()
+#     # print(result)
 
 
-    with sqlite3.connect('todo.db') as con:
-        cur = con.cursor()
-        cur.execute(querry)
-        result = cur.fetchall()
-    return result
-
-def delete(table_name:str, condition=None):
-    if condition is not None:
-        querry = f"DELETE  FROM {table_name} WHERE {condition};"
-    else:
-        querry = f"DELETE  FROM {table_name};"
+# def select(table_name:str, condition=None):
+#     if condition is not None:
+#         querry = f"SELECT * FROM {table_name} WHERE {condition};"
+#     else:
+#         querry = f"SELECT * FROM {table_name};"
 
 
-    with sqlite3.connect('todo.db') as con:
-        cur = con.cursor()
-        cur.execute(querry)
-        result = cur.fetchall()
-    return result
+#     with sqlite3.connect('todo.db') as con:
+#         cur = con.cursor()
+#         cur.execute(querry)
+#         result = cur.fetchall()
+#     return result
+
+# def delete(table_name:str, condition=None):
+#     if condition is not None:
+#         querry = f"DELETE  FROM {table_name} WHERE {condition};"
+#     else:
+#         querry = f"DELETE  FROM {table_name};"
+
+
+#     with sqlite3.connect('todo.db') as con:
+#         cur = con.cursor()
+#         cur.execute(querry)
+#         result = cur.fetchall()
+#     return result
 
 
 

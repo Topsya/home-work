@@ -1,22 +1,18 @@
 
 from repository import *
 
-from modeli import *
-# import query_1.sql
-
 
 def check_db():
     with sqlite3.connect('todo.db') as con:
-        cur = con.cursor()
-        cur.execute(""" SELECT   grade      
-                    FROM grades LIMIT 5
-                    JOIN students and subjects
-                    ORDER BY AVG(grade)                     
-                     
-                     ;""")
-        result = cur.fetchall()
-        print(result)
-        cur.close()
+        print (' 1. Знайти 5 студентів із найбільшим середнім балом з усіх предметів\n 2.Знайти студента із найвищим середнім балом з певного предмета\n 3.Знайти середній бал у групах з певного предмета\n 4.Знайти середній бал на потоці (по всій таблиці оцінок)\n 5.Знайти, які курси читає певний викладач\n 6.Знайти список студентів у певній групі\n 7.Знайти оцінки студентів в окремій групі з певного предмета\n 8.Знайти середній бал, який ставить певний викладач зі своїх предметів\n 9.Знайти список курсів, які відвідує студент\n 10.Список курсів, які певному студенту читає певний викладач.')
+        i = input('enter namber of viborki: ')
+        with open(f'query_{i}.sql', 'r') as f:
+            sql = f.read()
+            cur = con.cursor()
+            cur.execute(sql)
+            result = cur.fetchall()
+            print(result)
+            cur.close()
 
 check_db()
 
