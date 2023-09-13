@@ -1,5 +1,6 @@
 
 -- Знайти студента із найвищим середнім балом з певного предмета.
+-- WHERE  subject_id =  ід номер предмету(курсу от 1 до 8)
 
 SELECT  st.name , sub.name ,AVG(grade)
 FROM grades as g

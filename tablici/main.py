@@ -1,6 +1,6 @@
 
-from repository import *
-
+# from repository import *
+import sqlite3
 
 def check_db():
     with sqlite3.connect('todo.db') as con:
