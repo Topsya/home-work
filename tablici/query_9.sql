@@ -1,4 +1,5 @@
 -- # Знайти список курсів, які відвідує студент.
+-- WHERE  s.id  = ід студента 1 до 40 
 
 SELECT s.name , sub.name 
 FROM grades   as g   
