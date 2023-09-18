@@ -82,10 +82,10 @@ def seed_grades():
     session.commit()
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
 
-#     seed_teachers()
-#     seed_disciplines()
-#     seed_groups()
-#     seed_students()
-#     seed_grades()
+    seed_teachers()
+    seed_disciplines()
+    seed_groups()
+    seed_students()
+    seed_grades()

@@ -4,13 +4,12 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, Mapped
 from sqlalchemy.orm import DeclarativeBase
+import psycopg2
+
+DATABASE_URL = f"postgresql+psycopg2://postgres:0000@db:5432/postgres" 
 
 
-# import psycopg2
-# DATABASE_URL = f"postgresql+psycopg2://postgres:secret@db:5432/postgres" 
-
-
-engine = create_engine("sqlite:///students.db", echo=True)
+engine = create_engine(DATABASE_URL, echo=True)
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
@@ -61,6 +60,6 @@ class Grade(Base):
     student = relationship('Student', backref='grade')
     discipline = relationship('Discipline', backref='grade')
     
-Base.metadata.create_all(bind=engine)
-Base.metadata.bind = engine
+# Base.metadata.create_all(bind=engine)
+# Base.metadata.bind = engine
 

@@ -23,7 +23,7 @@ def select_2():
 def select_3():
 # Знайти середній бал у групах з певного предмета.
      discipline_id = int(input ( 'enter N subject 1-5: '))
-     result = session.query(Group.name, Discipline.name ,  func.round(func.avg(Grade.grade), 2).label('avg_grade') ) \
+     result = session.query( Discipline.name ,Group.name,  func.round(func.avg(Grade.grade), 2).label('avg_grade') ) \
         .select_from(Grade).join(Group).join(Discipline).filter(Discipline.id == discipline_id ).group_by( Discipline.name).order_by(desc('avg_grade')).all()
      return result
 
