@@ -2,16 +2,16 @@
 from mongoengine import *
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi 
-from models import Contact
+from models import *
 from faker import Faker
 import pika
 
 
-uri = "mongodb+srv://topsya1986:topsya1986@cluster0.jyxrtyu.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp"
-# db='homework8' 
+# uri = "mongodb+srv://topsya1986:topsya1986@cluster0.jyxrtyu.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp"
+# # db='homework8' 
 
-client = MongoClient(uri, server_api=ServerApi('1'))
-db = client.homework8
+# client = MongoClient(uri, server_api=ServerApi('1'))
+# db = client.homework8
 
 fake = Faker()
 def maker_contacts():
@@ -33,12 +33,14 @@ channel.queue_bind(exchange='task_service', queue='task_campaing')
 
 
 def main2():
-    for i in db.contact.find( { }, {'fullname': 0, 'email': 0,'done': 0}):
+    for i in range(1,30):
+        task = Contact().save()
      #    contact = Contact(fullname="Nonname").save()
         channel.basic_publish(
             exchange='task_service',
             routing_key='task_campaing',
-            body=str(i).encode(),
+            body=str(task.id).encode(),
+            # body2=str(task.email).encode(),
             properties=pika.BasicProperties(
                 delivery_mode=pika.spec.PERSISTENT_DELIVERY_MODE
             ))
