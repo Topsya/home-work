@@ -1,0 +1,46 @@
+{% extends 'newapp/base.html' %}
+
+{% block content %}
+
+<div>
+    <h2>Add Author</h2>
+</div>
+<form action="{% url 'newapp:author_add' %}" method="post">  
+    {% csrf_token %}
+    <div class="row mb-3">
+        <div class="form-group col-xs-3">
+            <label>Full Name: <br>
+                {{ form.fullname }}  
+            </label>
+            <span>{{ form.errors.fullname }}</span>  
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="form-group col-xs-3">
+            <label>Born: <br>
+                {{ form.born_date }} 
+            </label>
+            <span>{{ form.errors.born_date }}</span>  
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="form-group col-xs-3">
+            <label>Location: <br>
+                {{ form.born_location }}  
+            </label>
+            <span>{{ form.errors.born_location }}</span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="form-group col-xs-3">
+            <label>Bio: <br>
+                {{ form.description }}
+            </label>
+            <span>{{ form.errors.description }}</span> 
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Author</button>
+
+</form>
+
+{% endblock %}
