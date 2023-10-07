@@ -1,0 +1,33 @@
+{% extends "newapp/base.html" %}
+
+{% block content %}
+
+<form method="POST" action="{% url 'newapp:quotes' %}">
+    {% csrf_token %}
+    <div style="padding: 10px">
+        <label> Note name:
+            {{ form.tags }}
+        </label>
+        <span>{{ form.errors.tags }}</span>
+    </div>
+    <div style="padding: 10px">
+        <label> Note description:
+            {{ form.description }}
+        </label>
+        <span>{{ form.errors.description }}</span>
+    </div>
+    <div style="padding: 10px">
+        <label> Select quotes:
+            <select name="quotes" multiple="multiple" required>
+                {% for quote in quotes %}
+                <option value="{{quotes.tags}}">{{quotes.tags}}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </div>
+    <div class="grid">
+        <button type="submit">Submit</button>
+        <button type="reset" class="secondary">Reset</button>
+    </div>
+</form>
+{% endblock %}

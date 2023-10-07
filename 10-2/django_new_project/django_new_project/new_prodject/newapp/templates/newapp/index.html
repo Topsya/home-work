@@ -1,43 +1,32 @@
-{% extends 'newapp/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Organizer</title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"/>
+</head>
+<body>
+<main class="container">
+    <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
+        <ul>
+            <li><a href="{% url 'newapp:author' %}" role="button">Add author</a></li>
+            <li><a href="{% url 'newapp:quoutes' %}" role="button">Add quoute</a></li>
+        </ul>
+    </nav>
 
-{% block content %}
-<div class="row">
-    <div class="col-md-8">
-        {% for quote in quotes %}
-        <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
-            <span class="text" itemprop="text">
-                {{quote.text}}
-            </span>
-            <span>by <small class="author" itemprop="author">{{quote.author}}</small>
-                <a href="/author/{{quote.author}}">(about)</a>
-            </span>
-            <div class="tags">
-                Tags:
-                {% for tag in quote.tags %}
-                <a class="tag" href="/tag/{{ tag }}">{{ tag }}</a>
-                {% endfor %}
-
-            </div>
-            
-        </div>
-        {% endfor %}
-        <nav>
-            <ul class="pager">
-                <li class="previous">
-                    <a class="{% if not quotes.has_previous %} disabled {% endif %}"
-                        href="{% if quotes.has_previous %} {% url 'newapp:root_paginator' quotes.previous_page_number %} {% else %} # {% endif %}">
-                        <span aria-hidden="true"></span>Previous
-                    </a>
-                </li>
-                
-                <li class="next">
-                    <a class="{% if not quotes.has_next %} disabled {% endif %}"
-                        href="{% if quotes.has_next %} {% url 'quotes_app:root_paginator' quotes.next_page_number %} {% else %} # {% endif %}">
-                        Next <span aria-hidden="true">→</span>
-                </a>
-                </li>
-
-            </ul> 
-        </nav>
-</div>
-{% endblock %}
+    {% for quoute in quoutes %}
+    <ul>
+        <li>
+            {% if not quoute.done %}
+            <a href="{% url 'newapp:detail' quoute.id %}" role="button" class="outline"> {{ quoute.tags }} </a>
+            <a href="{% url 'newapp:set_done' quoute.id %}" role="button"> Mark Done </a>
+            <a href="{% url 'newapp:delete' quoute.id %}" role="button" class="contrast"> Delete quoute  </a>
+            {% else %}
+            <a href="{% url 'newapp:detail' quoute.id %}" role="button" class="secondary"><s>{{ quoute.tags }}</s></a>
+            {% endif %}
+        </li>
+    </ul>
+    {% endfor %}
+</main>
+</body>
+</html>
