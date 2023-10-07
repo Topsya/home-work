@@ -8,24 +8,16 @@ from .conect_to_mongodb import db
 
 # Create your views here.
 quotes =  db.quotes 
+author = db.author
 
 def main(request):
     return render(request, 'newapp/index.html')
-
-# def quotes2 (request, page=1):
-# #     db = uri.quotes_db
-#     quotes2 = db.quotes.find()
-#     # print (quotes)
-# #     per_page = 10
-#     # paginator = Paginator(list(quotes))#, per_page)
-# #     quotes_on_page = paginator.page(page)
-#     return render(request, 'newapp/index.html', context={'quotes': quotes })
 
 
 def author (request, author_url):
 #     db = uri.quotes_db
     author_name = author_url.replace('%20', ' ')
-    author = db.author.find_one({'fullname': author_name})
+    author = author.find_one({'fullname': author_name})
     return render(request, 'newapp/author.html', context={'author': author})
 
 def quotes(request):
@@ -38,7 +30,7 @@ def quotes(request):
 
             choice_quotes = quotes.objects.filter(name__in=request.POST.getlist('tags'))
             for tag in choice_quotes.iterator():
-                new_quotes.quotes.add(tag)
+                new_quotes.quotes.add(quotes)
 
             return redirect(to='newapp:main')
         else:
