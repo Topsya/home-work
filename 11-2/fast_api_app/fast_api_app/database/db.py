@@ -17,7 +17,7 @@ def create_db():
 
 SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:567234@localhost:5432/rest_app"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
-# Base.metadata.create_all(engine) 
+
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

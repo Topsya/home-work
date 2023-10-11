@@ -6,11 +6,6 @@ from sqlalchemy import and_, extract, or_, select
 from fast_api_app.database.models import Contact
 from fast_api_app.schemas import  ContactsBase, ContactMoedels
 
-# contact as repository_contscts
-
-# async def read_contacts(skip: int, limit: int, db: Session):
-#     contacts = db.query(Contact).all()
-#     return contacts
 async def read_contacts( db: Session) -> List[Contact]:
     return db.query(Contact).all()
 
@@ -20,12 +15,6 @@ async def read_contact(contact_id: int, db: Session):
     return contact
 
 
-# async def create_contact(body: ContactsBase, db: Session):
-#     contact = Contact(**body.dict())      
-#     db.add(contact)
-#     db.commit()
-#     db.refresh(contact)
-#     return contact
 
 async def create_contact(body: ContactMoedels, db: Session) -> Contact:
     contacts = Contact(name=body.name, surname=body.surname, email=body.email,fonenamber=body.fonenamber, birthday= body.birthday)
