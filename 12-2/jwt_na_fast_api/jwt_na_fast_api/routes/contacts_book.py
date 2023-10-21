@@ -1,7 +1,8 @@
 from typing import List
 
-from fastapi import APIRouter, HTTPException, Depends, status, Path
+from fastapi import APIRouter, HTTPException, Depends, status, Path 
 from sqlalchemy.orm import Session
+from fastapi_limiter.depends import RateLimiter
 
 from jwt_na_fast_api.database.db import get_db
 from jwt_na_fast_api.schemas import ContactsBase, ContactMoedels
@@ -11,7 +12,8 @@ from jwt_na_fast_api.services.auth import auth_service
 
 router = APIRouter(prefix='/contacts', tags=["contacts"])
 
-@router.get("/", response_model=List[ContactMoedels])
+@router.get("/", response_model=List[ContactMoedels], description='No more than 10 requests per minute',
+             dependencies=[Depends(RateLimiter(times=10, seconds=60))])
 async def read_contacts(  db: Session = Depends(get_db),
                         current_user: User = Depends(auth_service.get_current_user)):
     contacts = await repository_contacts.read_contacts(current_user, db)
@@ -75,4 +77,6 @@ async def read_contact(email: str, db: Session = Depends(get_db),
 async def read_contact_days_to_birthday(days_to_birthday: int = Path(ge=0, le=7), db: Session = Depends(get_db)):
     contacts = await repository_contacts.read_contact_days_to_birthday(db, days_to_birthday)
     return contacts
+
+
 

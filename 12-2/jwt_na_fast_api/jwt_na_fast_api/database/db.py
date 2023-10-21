@@ -2,9 +2,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from  jwt_na_fast_api.database.models import Base
 import psycopg2
+from  jwt_na_fast_api.conf.config import  settings
+
  
 def create_db():
-    conn = psycopg2.connect(dbname="postgres", user="postgres", password="567234", host="localhost")
+    conn = psycopg2.connect(dbname=f"{settings.postgres_db}", user=f"{settings.POSTGRES_USER}", password=f"{settings.POSTGRES_PASSWORD}", host=f"{settings.POSTGRES_PORT}")
     cursor = conn.cursor()
     conn.autocommit = True
     # команда для создания базы данных rest_app
@@ -15,7 +17,7 @@ def create_db():
     cursor.close()
     conn.close()
 
-SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:567234@localhost:5432/rest_app"
+SQLALCHEMY_DATABASE_URL =   settings.sqlalchemy_database_url  
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 
