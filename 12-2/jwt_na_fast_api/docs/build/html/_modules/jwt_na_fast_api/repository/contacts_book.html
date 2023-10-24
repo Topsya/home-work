@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jwt_na_fast_api.repository.contacts_book &#8212; Rest API Contact 010 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=039e1c02" />
+    <script src="../../../_static/documentation_options.js?v=0cbbdbc2"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for jwt_na_fast_api.repository.contacts_book</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">Session</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">and_</span><span class="p">,</span> <span class="n">extract</span><span class="p">,</span> <span class="n">or_</span><span class="p">,</span> <span class="n">select</span>
+
+<span class="kn">from</span> <span class="nn">jwt_na_fast_api.database.models</span> <span class="kn">import</span> <span class="n">Contact</span><span class="p">,</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">jwt_na_fast_api.schemas</span> <span class="kn">import</span>  <span class="n">ContactsBase</span><span class="p">,</span> <span class="n">ContactMoedels</span>
+
+
+<div class="viewcode-block" id="read_contacts">
+<a class="viewcode-back" href="../../../index.html#jwt_na_fast_api.repository.contacts_book.read_contacts">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">read_contacts</span><span class="p">(</span>  <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Contact</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The read_contacts function returns a list of  contacts.</span>
+
+<span class="sd">    :param user: The user to retrieve contacts for.</span>
+<span class="sd">    :type user: User</span>
+<span class="sd">    :param db: The database session.</span>
+<span class="sd">    :type db: Session</span>
+<span class="sd">    :return: A list of contacts.</span>
+<span class="sd">    :rtype: List[Contact]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Contact</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Contact</span><span class="o">.</span><span class="n">user_id</span> <span class="o">==</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></div>
+
+
+    
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">read_contact</span><span class="p">(</span><span class="n">contact_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieves a single contact with the specified ID for a specific user from the database.</span>
+
+<span class="sd">    :param contact_id: The ID of the contact to retrieve.</span>
+<span class="sd">    :type contact_id: int</span>
+<span class="sd">    :param user: The user to retrieve the contact for.</span>
+<span class="sd">    :type user: User</span>
+<span class="sd">    :param db: The database session.</span>
+<span class="sd">    :type db: Session</span>
+<span class="sd">    :return: The contact with the specified ID, or None if it does not exist.</span>
+<span class="sd">    :rtype: Contact | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">contact</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Contact</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">and_</span><span class="p">(</span><span class="n">Contact</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">contact_id</span><span class="p">,</span> <span class="n">Contact</span><span class="o">.</span><span class="n">user_id</span> <span class="o">==</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">))</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">contact</span>
+
+
+
+<div class="viewcode-block" id="create_contact">
+<a class="viewcode-back" href="../../../index.html#jwt_na_fast_api.repository.contacts_book.create_contact">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">create_contact</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">ContactMoedels</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Contact</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a new contact for a specific user.</span>
+
+<span class="sd">    :param body: The data for the contact to create.</span>
+<span class="sd">    :type body: ContactMoedels</span>
+<span class="sd">    :param user: The user to create the contact for.</span>
+<span class="sd">    :type user: User</span>
+<span class="sd">    :param db: The database session.</span>
+<span class="sd">    :type db: Session</span>
+<span class="sd">    :return: The newly created contact .</span>
+<span class="sd">    :rtype: Contact </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">contacts</span> <span class="o">=</span> <span class="n">Contact</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">body</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">surname</span><span class="o">=</span><span class="n">body</span><span class="o">.</span><span class="n">surname</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">body</span><span class="o">.</span><span class="n">email</span><span class="p">,</span><span class="n">fonenamber</span><span class="o">=</span><span class="n">body</span><span class="o">.</span><span class="n">fonenamber</span><span class="p">,</span> <span class="n">birthday</span><span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">birthday</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">contacts</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">contacts</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">contacts</span></div>
+
+
+
+<div class="viewcode-block" id="update_contact">
+<a class="viewcode-back" href="../../../index.html#jwt_na_fast_api.repository.contacts_book.update_contact">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">update_contact</span><span class="p">(</span> <span class="n">contact_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="n">ContactsBase</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Contact</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Updates a single contact with the specified ID for a specific user.</span>
+
+<span class="sd">    :param contact_id: The ID of the contact to update.</span>
+<span class="sd">    :type contact_id: int</span>
+<span class="sd">    :param body: The updated data for the contact.</span>
+<span class="sd">    :type body: ContactsBase</span>
+<span class="sd">    :param user: The user to update the contact  for.</span>
+<span class="sd">    :type user: User</span>
+<span class="sd">    :param db: The database session.</span>
+<span class="sd">    :type db: Session</span>
+<span class="sd">    :return: The updated contact, or None if it does not exist.</span>
+<span class="sd">    :rtype: Contact | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">contact</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Contact</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">and_</span><span class="p">(</span><span class="n">Contact</span><span class="o">.</span><span class="n">id</span><span class="o">==</span><span class="n">contact_id</span><span class="p">,</span>  <span class="n">Contact</span><span class="o">.</span><span class="n">user_id</span> <span class="o">==</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">))</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">contact</span><span class="p">:</span>
+        <span class="n">contact</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">contact</span><span class="o">.</span><span class="n">surname</span> <span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">surname</span>
+        <span class="n">contact</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">email</span>
+        <span class="n">contact</span><span class="o">.</span><span class="n">fonenamber</span> <span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">fonenamber</span>
+        <span class="n">contact</span><span class="o">.</span><span class="n">birthday</span> <span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">birthday</span>
+ 
+        <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">contact</span></div>
+
+
+
+<div class="viewcode-block" id="remove_contact">
+<a class="viewcode-back" href="../../../index.html#jwt_na_fast_api.repository.contacts_book.remove_contact">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">remove_contact</span><span class="p">(</span><span class="n">contact_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Contact</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Removes a single contact with the specified ID for a specific user.</span>
+
+<span class="sd">    :param contact_id: The ID of the contact to remove.</span>
+<span class="sd">    :type contact_id: int</span>
+<span class="sd">    :param user: The user to remove the contact for.</span>
+<span class="sd">    :type user: User</span>
+<span class="sd">    :param db: The database session.</span>
+<span class="sd">    :type db: Session</span>
+<span class="sd">    :return: The removed contact, or None if it does not exist.</span>
+<span class="sd">    :rtype: Contact | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">contact</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Contact</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">and_</span><span class="p">(</span><span class="n">Contact</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">contact_id</span><span class="p">,</span> <span class="n">Contact</span><span class="o">.</span><span class="n">user_id</span> <span class="o">==</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">))</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">contact</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">contact</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">contact</span></div>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">read_contact</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The read_contacts function return  contact by name for a specific user from the database.</span>
+
+<span class="sd">    :param name: The name of the contact to retrieve.</span>
+<span class="sd">    :type name: str</span>
+<span class="sd">    :param user: The user to retrieve the contact for.</span>
+<span class="sd">    :type user: User</span>
+<span class="sd">    :param db: The database session.</span>
+<span class="sd">    :type db: Session</span>
+<span class="sd">    :return: The contact with the name, or None if it does not exist.</span>
+<span class="sd">    :rtype: Contact | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">contact</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Contact</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">and_</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span>  <span class="p">))</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">contact</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">read_contact</span><span class="p">(</span><span class="n">surname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>  <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The read_contacts function return  contact by surname for a specific user from the database.</span>
+
+<span class="sd">    :param surname: The surname of the contact to retrieve.</span>
+<span class="sd">    :type surname: str</span>
+<span class="sd">    :param user: The user to retrieve the contact for.</span>
+<span class="sd">    :type user: User</span>
+<span class="sd">    :param db: The database session.</span>
+<span class="sd">    :type db: Session</span>
+<span class="sd">    :return: The contact with the surname, or None if it does not exist.</span>
+<span class="sd">    :rtype: Contact | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">contact</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Contact</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">and_</span><span class="p">(</span><span class="n">surname</span><span class="o">=</span><span class="n">surname</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">))</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">contact</span>
+
+<div class="viewcode-block" id="read_contact">
+<a class="viewcode-back" href="../../../index.html#jwt_na_fast_api.repository.contacts_book.read_contact">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">read_contact</span><span class="p">(</span><span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The read_contacts function return  contact by email for a specific user from the database.</span>
+
+<span class="sd">    :param email: The email of the contact to retrieve.</span>
+<span class="sd">    :type email: str</span>
+<span class="sd">    :param user: The user to retrieve the contact for.</span>
+<span class="sd">    :type user: User</span>
+<span class="sd">    :param db: The database session.</span>
+<span class="sd">    :type db: Session</span>
+<span class="sd">    :return: The Contact with the email, or None if it does not exist.</span>
+<span class="sd">    :rtype: Contact | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">contact</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Contact</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">and_</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">))</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">contact</span></div>
+
+
+<div class="viewcode-block" id="read_contact_days_to_birthday">
+<a class="viewcode-back" href="../../../index.html#jwt_na_fast_api.repository.contacts_book.read_contact_days_to_birthday">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">read_contact_days_to_birthday</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Session</span><span class="p">,</span> <span class="n">days_to_birthday</span><span class="p">:</span> <span class="nb">int</span> <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The read_contact_days_to_birthday function return contacts whose birthday one week from today. </span>
+
+<span class="sd">    :param days_to_birthday: The days to birthday.</span>
+<span class="sd">    :type days_to_birthday: int</span>
+<span class="sd">    :param db: The database session.</span>
+<span class="sd">    :type db: Session</span>
+<span class="sd">    :return: The Contacts whose birthday one week, or None if it does not exist.</span>
+<span class="sd">    :rtype: Contact | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="n">today</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+    <span class="n">end_date</span> <span class="o">=</span> <span class="n">today</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days_to_birthday</span><span class="p">)</span>
+
+    <span class="n">birthday_contacts</span>  <span class="o">=</span> <span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">Contact</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">and_</span><span class="p">(</span><span class="n">Contact</span><span class="o">.</span><span class="n">birthday</span><span class="o">.</span><span class="n">isnot</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
+                <span class="n">extract</span><span class="p">(</span><span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="n">Contact</span><span class="o">.</span><span class="n">birthday</span><span class="p">)</span> <span class="o">==</span> <span class="n">end_date</span><span class="o">.</span><span class="n">month</span><span class="p">,</span>
+                <span class="n">extract</span><span class="p">(</span><span class="s2">&quot;day&quot;</span><span class="p">,</span> <span class="n">Contact</span><span class="o">.</span><span class="n">birthday</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">end_date</span><span class="o">.</span><span class="n">day</span><span class="p">,</span>
+                <span class="n">extract</span><span class="p">(</span><span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="n">Contact</span><span class="o">.</span><span class="n">birthday</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span><span class="p">,))</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">Contact</span><span class="o">.</span><span class="n">birthday</span><span class="p">))</span>
+
+    <span class="n">upcoming_birthday</span>  <span class="o">=</span> <span class="k">await</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">birthday_contacts</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">upcoming_birthday</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+    <span class="n">filtered_results</span> <span class="o">=</span> <span class="p">[</span><span class="n">contact</span> <span class="k">for</span> <span class="n">contact</span> <span class="ow">in</span> <span class="n">results</span> <span class="k">if</span> <span class="p">(</span><span class="n">contact</span><span class="o">.</span><span class="n">birthday</span> <span class="o">-</span> <span class="n">today</span><span class="p">)</span><span class="o">.</span><span class="n">days</span> <span class="o">&lt;=</span> <span class="n">days_to_birthday</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">filtered_results</span></div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">Rest API Contact</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, topsya1986.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
