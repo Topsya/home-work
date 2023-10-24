@@ -10,12 +10,12 @@ Welcome to Rest API Contact's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-REST API main
-===================
-.. automodule:: main 
-  :members:
-  :undoc-members:
-  :show-inheritance: 
+.. REST API main
+.. ===================
+.. .. automodule:: main 
+..   :members:
+..   :undoc-members:
+..   :show-inheritance: 
 
 
 REST API repository Contacts
@@ -33,12 +33,12 @@ REST API repository Users
   :show-inheritance:
 
  
-.. REST API routes Contact
-.. ===========================
-.. .. automodule::  jwt_na_fast_api.routes.contacts_book
-..   :members:
-..   :undoc-members:
-..   :show-inheritance:
+REST API routes Contact
+===========================
+.. automodule::  jwt_na_fast_api.routes.contacts_book
+  :members:
+  :undoc-members:
+  :show-inheritance:
 
 
 .. REST API routes Users
