@@ -10,13 +10,9 @@
 import os
 import sys
 
-
-# sys.path.insert(0, os.path.abspath('../../'))
-# sys.path.insert(0, os.path.abspath(os.path.join("..", "..")))
-# sys.path.insert(0, os.path.abspath('..'))
-# sys.path.insert(0, os.path.abspath('../../'))
-# sys.path.insert(0, os.path.abspath('../..'))
-sys.path.append(os.path.abspath('../../'))
+sys.path.insert(0, os.path.abspath('..'))
+ 
+# sys.path.append(os.path.abspath("jwt_na_fast_api"))
 
 
 project = 'Rest API Contact'
@@ -27,7 +23,7 @@ release = '010'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = [ 'sphinx.ext.todo', 'sphinx.ext.viewcode', 'sphinx.ext.autodoc']
+extensions = [ 'sphinx.ext.todo', 'sphinx.ext.viewcode', 'sphinx.ext.autodoc', 'sphinx.ext.napoleon' ]
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']

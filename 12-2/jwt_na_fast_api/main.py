@@ -29,11 +29,25 @@ app.include_router(users.router, prefix='/api')
 
 @app.on_event("startup")
 async def startup():
+    """
+    The startup function is called when the application starts up.
+    It's a good place to initialize things that are needed by your app, such as database connections.
+    
+    :return: A list of coroutines
+    :doc-author: Trelent
+    """
     r = await redis_go.Redis(host='localhost', port= settings.redis_port, db=0, encoding="utf-8", decode_responses=True)
     await FastAPILimiter.init(r)
 
 @app.get("/", name='project start page')
 def read_root():
+    """
+    The read_root function returns a dictionary with the key &quot;message&quot; and value &quot;Hello World&quot;.
+    
+    
+    :return: A dictionary
+    :doc-author: Trelent
+    """
     return {"message": "Hello World"}
 
 if __name__ == '__main__':
