@@ -10,6 +10,7 @@ Welcome to Rest API Contact's documentation!
    :maxdepth: 8
    :caption: Contents:
 
+
 main module
 ===========
 
@@ -19,13 +20,13 @@ main module
    :show-inheritance:
 
 
-mail\_togo module
-=================
+.. mail\_togo module
+.. =================
 
-.. automodule:: mail_togo
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. .. automodule:: mail_togo
+..    :members:
+..    :undoc-members:
+..    :show-inheritance:
 
 
 .. REST API repository Contacts_book
