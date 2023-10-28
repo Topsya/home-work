@@ -7,7 +7,7 @@ Welcome to Rest API Contact's documentation!
 ============================================
 
 .. toctree::
-   :maxdepth: 8
+   :maxdepth: 7
    :caption: Contents:
 
 
