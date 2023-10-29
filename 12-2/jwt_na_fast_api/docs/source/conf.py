@@ -13,8 +13,9 @@ import sys
 # sys.path.insert(0, os.path.abspath('..'))
 # sys.path.insert(0, os.path.abspath('./../../jwt_na_fast_api'))
 # sys.path.insert(0, os.path.abspath('./../../jwt_na_fast_api/routes'))
- 
-sys.path.append(os.path.abspath("jwt_na_fast_api"))
+sys.path.append(os.path.abspath(".."))
+
+# sys.path.append(os.path.abspath("jwt_na_fast_api"))
 
 
 project = 'Rest API Contact'
