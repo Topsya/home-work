@@ -26,6 +26,10 @@ fastapi-limiter = "^0.1.5"
 radis = "^0.14"
 pip = "^23.3"
 alembic = "^1.12.1"
+sphinx = "^7.2.6"
+
+[tool.poetry.group.dev.dependencies]
+sphinx = "^7.2.6"
 
 [build-system]
 requires = ["poetry-core"]
