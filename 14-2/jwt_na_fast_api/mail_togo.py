@@ -5,6 +5,7 @@ from fastapi import FastAPI, BackgroundTasks
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
 from pydantic import EmailStr, BaseModel
 # from typing import List
+from  jwt_na_fast_api.conf.config import  settings
 
 
 class EmailSchema(BaseModel):
@@ -13,11 +14,11 @@ class EmailSchema(BaseModel):
 
 
 conf = ConnectionConfig(
-    MAIL_USERNAME="anton1work@meta.ua",
-    MAIL_PASSWORD="Topsya1081986",
-    MAIL_FROM="anton1work@meta.ua",
-    MAIL_PORT=465,
-    MAIL_SERVER="smtp.meta.ua",
+    MAIL_USERNAME=  settings.mail_username,
+    MAIL_PASSWORD= settings.mail_password,
+    MAIL_FROM= settings.mail_from,
+    MAIL_PORT=settings.mail_port,
+    MAIL_SERVER=settings.mail_server,
     MAIL_FROM_NAME="Anton for homework",
     MAIL_STARTTLS=False,
     MAIL_SSL_TLS=True,
