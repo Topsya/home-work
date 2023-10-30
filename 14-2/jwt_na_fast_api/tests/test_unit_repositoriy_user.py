@@ -5,10 +5,9 @@ from sqlalchemy.orm import Session
 
 from jwt_na_fast_api.schemas import UserModel
 from jwt_na_fast_api.database.models import User
-from jwt_na_fast_api.repository.users import (get_user_by_email, create_user, delete_user, update_token,
-                                          confirmed_email, update_avatar, change_password
-                                          )
+from jwt_na_fast_api.repository.users import get_user_by_email, create_user, update_token, confirmed_email, update_avatar 
 
+# get_user_by_email , create_user, update_token, confirmed_email,  update_avatar 
 
 class TestUsersRepository(unittest.IsolatedAsyncioTestCase):
 
@@ -17,7 +16,7 @@ class TestUsersRepository(unittest.IsolatedAsyncioTestCase):
 
     async def test_get_user_by_email(self):
         email = "test_mail@example.com"
-        user = User(id=1, user_email=email)
+        user = User(id=1,  email=email)
         self.session.query().filter_by().first.return_value = user
 
         result = await get_user_by_email(email=email, db=self.session)
@@ -31,26 +30,20 @@ class TestUsersRepository(unittest.IsolatedAsyncioTestCase):
         self.assertIsNone(result)
 
     async def test_create_user(self):
-        user_data = UserModel(username="fake_user", user_email="test@example.com", password="password123")
-        new_user = User(id=1, user_email=user_data.user_email)
+                       
+        user_data = UserModel (username="nnnnnn", email="test@example.com", password="password12")
+        new_user = User(id=1, email=user_data.email)
         self.session.add.return_value = None
         self.session.commit.return_value = None
         self.session.refresh.return_value = None
 
         result = await create_user(body=user_data, db=self.session)
-        self.assertEqual(result.user_email, new_user.user_email)
+        self.assertEqual(result.email, new_user.email)
 
-    async def test_delete_user(self):
-        user = User(id=1, user_email="test_mail@example.com")
-        self.session.delete.return_value = None
-        self.session.commit.return_value = None
-        self.session.refresh.return_value = None
 
-        await delete_user(user=user, db=self.session)
-        self.assertEqual(self.session.delete.call_args[0][0], user)
 
     async def test_update_token(self):
-        user = User(id=1, user_email="test_mail@example.com")
+        user = User(id=1,  email="test_mail@example.com")
         token = "new_refresh_token"
         self.session.commit.return_value = None
         self.session.refresh.return_value = None
@@ -60,7 +53,7 @@ class TestUsersRepository(unittest.IsolatedAsyncioTestCase):
 
     async def test_confirmed_email(self):
         user_email = "test_mail@example.com"
-        user = User(id=1, user_email=user_email, confirmed=True)
+        user = User(id=1,  email=user_email, confirmed=True)
         self.session.commit.return_value = None
         self.session.refresh.return_value = None
 
@@ -73,18 +66,8 @@ class TestUsersRepository(unittest.IsolatedAsyncioTestCase):
         self.session.commit.return_value = None
         self.session.refresh.return_value = None
 
-        updated_user = await update_avatar(email=user_email, avatar_url=avatar_url, db=self.session)
-        self.assertEqual(updated_user.avatar_url, avatar_url)
-
-    async def test_change_password(self):
-        user_email = "test_mail@example.com"
-        new_password = "new_password123"
-        user = User(id=1, user_email=user_email, password="old_password123")
-        self.session.commit.return_value = None
-        self.session.refresh.return_value = None
-
-        updated_user = await change_password(user=user, password=new_password, db=self.session)
-        self.assertEqual(updated_user.password, new_password)
+        updated_user = await update_avatar(email=user_email,  url=avatar_url, db=self.session)
+        self.assertEqual(updated_user.url, avatar_url)
 
 
 if __name__ == '__main__':

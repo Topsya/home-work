@@ -106,7 +106,7 @@ async def remove_contact(contact_id: int, user: User, db: Session) -> Contact | 
         db.commit()
     return contact
 
-async def read_contact(name: str, user: User, db: Session):
+async def read_contact_by_name(name: str, user: User, db: Session):
     """
     The read_contacts function return  contact by name for a specific user from the database.
 
@@ -122,7 +122,7 @@ async def read_contact(name: str, user: User, db: Session):
     contact = db.query(Contact).filter_by(and_(name=name, user= user.id  )).first()
     return contact
 
-async def read_contact(surname: str,  user: User, db: Session):
+async def read_contact_by_surname(surname: str,  user: User, db: Session):
     """
     The read_contacts function return  contact by surname for a specific user from the database.
 
@@ -138,7 +138,7 @@ async def read_contact(surname: str,  user: User, db: Session):
     contact = db.query(Contact).filter_by(and_(surname=surname, user=user.id)).first()
     return contact
 
-async def read_contact(email: str, user: User, db: Session):
+async def read_contact_by_email(email: str, user: User, db: Session):
     """
     The read_contacts function return  contact by email for a specific user from the database.
 

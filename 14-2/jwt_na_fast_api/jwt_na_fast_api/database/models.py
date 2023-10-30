@@ -22,7 +22,7 @@ class Contact(Base):
 class User(Base):
     __tablename__ = "users"
     __table_args__ =(
-        UniqueConstraint('email' ),
+        UniqueConstraint('email'),
     )
 
     id = Column(Integer, primary_key=True)

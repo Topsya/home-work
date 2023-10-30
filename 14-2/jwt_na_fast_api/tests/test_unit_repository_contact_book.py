@@ -14,7 +14,8 @@ class TestContact(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
         self.session = MagicMock(spec=Session)
         self.user = User(id=1)
-
+        
+     
     async def test_read_contacts(self):
         contacts = [Contact(), Contact(), Contact()]
         self.session.query().filter().offset().limit().all.return_value = contacts
@@ -22,10 +23,11 @@ class TestContact(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(result, contacts)
 
     async def test_read_contact(self):
-        contact = Contact()
-        self.session.query().filter().first.return_value = contact
-        result = await read_contact(contact_id=1, user=self.user, db=self.session)
-        self.assertEqual(result, contact)
+        contact_id = 1
+        contact = Contact( id=contact_id, user_id=self.user.id)
+        self.session.query(Contact).filter(Contact.id == 1, Contact.user_id == self.user.id).first.return_value = contact
+        result = await read_contact(contact_id=contact_id , user=self.user, db=self.session)
+        self.assertEqual(result,  contact )
 
     async def test_if_read_contact_not_found(self):
         self.session.query().filter().first.return_value = None
@@ -42,7 +44,7 @@ class TestContact(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(result.fonenamber, body.fonenamber)
         self.assertEqual(result.user_id, self.user.id)
         self.assertTrue(hasattr(result, "id"))
-#   
+ 
 
     async def test_remove_contact_found(self):
         contact = Contact()

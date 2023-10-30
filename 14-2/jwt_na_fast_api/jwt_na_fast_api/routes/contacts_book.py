@@ -100,13 +100,13 @@ async def remove_contact(contact_id: int, db: Session = Depends(get_db),
     :return: A contact object, but the function does not return a response
     :doc-author: Trelent
     """
-    contact = await repository_contacts.remove_contacts(contact_id, current_user, db)
+    contact = await repository_contacts.remove_contact(contact_id, current_user, db)
     if contact is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Contact not found")
     return contact
 
 @router.get("/{name}", response_model=ContactMoedels)
-async def read_contact(name: str, db: Session = Depends(get_db),
+async def read_contact_by_name(name: str, db: Session = Depends(get_db),
                        current_user: User = Depends(auth_service.get_current_user)):
     """
     The read_contact function returns a contact by name.
@@ -123,7 +123,7 @@ async def read_contact(name: str, db: Session = Depends(get_db),
     return contact
 
 @router.get("/{surname}", response_model=ContactMoedels)
-async def read_contact(surname: str, db: Session = Depends(get_db),
+async def read_contact_by_suname(surname: str, db: Session = Depends(get_db),
                        current_user: User = Depends(auth_service.get_current_user)):
     """
     The read_contact function returns a contact by surname.
@@ -140,7 +140,7 @@ async def read_contact(surname: str, db: Session = Depends(get_db),
     return contact
 
 @router.get("/{email}", response_model=ContactMoedels)
-async def read_contact(email: str, db: Session = Depends(get_db),
+async def read_contact_by_email(email: str, db: Session = Depends(get_db),
                        current_user: User = Depends(auth_service.get_current_user)):
     """
     The read_contact function returns a contact by email.
