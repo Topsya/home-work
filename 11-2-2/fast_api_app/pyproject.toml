@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "fast-api-app"
+version = "0.1.0"
+description = ""
+authors = ["Topsya <topsya1986@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+ 
+ 
+alembic = "^1.9.3"
+psycopg2 = "^2.9.5"
+uvicorn = {extras = ["standart"], version = "^0.20.0"}
+pydantic = {extras = ["email"], version = "^1.10.4"}
+ 
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+fastapi = "^0.92.0"
+ 
+sqlalchemy = "^2.0.4"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-multipart = "^0.0.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

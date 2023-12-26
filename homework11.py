@@ -19,7 +19,7 @@ class Phone(Field):
 
     @phone.setter
     def phone(self, phone):
-            if re.findall(r'\d{11}', phone):
+            if re.findall(r'\d{10}', phone):
                 self.phone = phone
             else:
                 print ("Enter number '+' and 12 digits : ")
